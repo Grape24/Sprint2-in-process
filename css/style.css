@@ -1,0 +1,52 @@
+nav{
+    opacity: 0.7;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    border-bottom: 1px solid #000000;
+    border-top: 1px solid #000000;
+}
+li{
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    list-style: none;
+    color: #484848;
+    text-decoration: none;
+    text-align: center;
+    height: 100px;
+    border-right: 1px solid white;
+    width: 33%;
+}
+a{
+    font-size: 20px;
+    align-self: center;
+    text-decoration: none;
+    color: black;
+}
+
+.img-gallery-container > img{
+    width: 30%;
+    height: auto;
+    padding: 10px;
+
+}
+.meme-editor{
+    height: auto;
+}
+.canvas-container{
+    display:none;
+    position: relative;
+    width: 473px;
+    height: 473px;
+}
+
+canvas{
+    width: 100%;
+    height:100%;
+    z-index: 0;
+}
