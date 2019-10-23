@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Meme Editor</title>
+</head>
+<body onload="initMemeEditor()">
+    <nav>
+        <li>Logo</li>
+        <li><a blank="_targer" href="index.html">Gallery</a></li>
+        <li><a blank="_targer" href="#">Memes</a></li>
+        <li><a blank="_targer" href="#">About</a></li>
+    </nav>
+    <div class="meme-editor">
+            <label for="meme-txt">Meme text no 1:</label>
+            <input oninput="onWrite(event, this.value, this.name)" type="text" name="meme-txt1">
+            <label for="meme-txt">Meme text no 2:</label>
+            <input oninput="onWrite(event, this.value, this.name)" type="text" name="meme-txt2">
+            <button onclick="onChangeFontSize('+')">Increase text size</button>
+            <button onclick="onChangeFontSize('-')">Decrease text size</button>
+            <button onclick="onLineHeightChange('+')">Up</button>
+            <button onclick="onLineHeightChange('-')">Down</button>
+            <button>Switch Line</button>
+    </div>
+    <div class="canvas-container"></div>
+        <canvas class="img-canvas"></canvas>
+    </div>
+    <img class="invisible" src="" alt="">
+    <script src="js/memeService.js"></script>
+    <script src="js/main.js"></script>
+    <script src='js/util.js'></script>
+</body>
+</html>

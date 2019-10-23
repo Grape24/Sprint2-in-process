@@ -16,51 +16,104 @@ function renderImgGallery(){
 function onEditMeme(elImg){
     let elImgIdx = elImg.dataset.id;
     elImgIdx = +elImgIdx;
-    let url = findURLById(elImgIdx);
-    let elImgContainer = document.querySelector('.img-gallery-container');
-    elImgContainer.style.display = 'none';
-    initMemeEditor(url, elImgIdx);
+    selectImgById(elImgIdx);
+    window.location.href = '/editor.html';
 }
 
-function initMemeEditor(url, id){
-    selectImgById(id);
-    let elImg = createImgElement(url);
-    renderElCanvas(elImg);
 
-}
-
-function onWrite(ev, elInputValue){
-    let elTxt = elInputValue;
+function initMemeEditor(){
     let url = getCurrMemeUrl();
-    let elImg = createImgElement(url);
+    createImgElement(url);
+    restoreCurrMeme();
+}
+
+function onWrite(ev, elInputValue, selectedTxt){
+    selectedTxt = findSelectedText(selectedTxt);
+    let fontSize = loadFontSizeFromStorage();
+    let elTxt = elInputValue;
+    let elImg = document.querySelector('.invisible')
     elInputValue = elInputValue.substring(0, elInputValue.length-1);
     let elCanvas = document.querySelector('.img-canvas');
     let ctx = elCanvas.getContext('2d');
-    ctx.font = '20px Impact';
+    ctx.font = `${fontSize}px Impact`;
     ctx.fillStyle = '#FFFFFF'
-    if(ev.inputType === "deleteContentBackward"){
+    if(ev.inputType === 'deleteContentBackward'){
         let elDeletedTxt = elInputValue;  
         renderElCanvas(elImg);  
-        ctx.strokeText(elDeletedTxt, 10, 50);
+        ctx.strokeText(elDeletedTxt, 20, 30);
+        setMemeTxt(selectedTxt, elDeletedTxt);
     }else{
         renderElCanvas(elImg);
-        ctx.strokeText(elTxt, 10, 50);
+        ctx.strokeText(elTxt, 20, 30);
+        setMemeTxt(selectedTxt, elTxt);
     }
 }
 
-function renderElCanvas(elImg){
-    let elCanvasContainer = document.querySelector('.canvas-container');
-    elCanvasContainer.style.display = 'block';
+function renderElCanvas(img){
     let elCanvas = document.querySelector('.img-canvas');
     let ctx = elCanvas.getContext('2d');
     let width = elCanvas.width
     let height = elCanvas.height
-    ctx.drawImage(elImg, 0, 0, width, height);
+    ctx.drawImage(img, 0, 0, width, height);
 }
 
 function createImgElement(url){
-    let elImg = document.createElement('IMG');
-    elImg.setAttribute('src', url);
-    return elImg;
+    let img = new Image()
+    img.src = url
+    img.onload = () => {
+        let elImg = document.querySelector('.invisible')
+        elImg.src = url
+        renderElCanvas(img);
+    }
 }
 
+function onChangeFontSize(operator){
+    let meme = loadMemeFromStorage();
+    let fontSize = meme.txts[0].fontSize;
+    let y = meme.txts[0].lineHeight;
+    (operator === '-')? fontSize-- : fontSize++;
+    setMemeFontSize(fontSize);
+    let elCanvasText = getCurrText();
+    let elImg = document.querySelector('.invisible')
+    renderElCanvas(elImg);
+    let elCanvas = document.querySelector('.img-canvas');
+    let ctx = elCanvas.getContext('2d');
+    ctx.font = `${fontSize}px Impact`;
+    ctx.fillStyle = '#FFFFFF';
+    ctx.strokeText(elCanvasText, 20, y);
+}
+
+
+function loadFontSizeFromStorage(){
+    let meme = loadMemeFromStorage();
+    let fontSize = meme.txts[0].fontSize;
+    return fontSize;
+}
+
+function restoreCurrMeme(){
+   gMeme = loadMemeFromStorage()
+}
+
+function onLineHeightChange(operator){
+    let meme = loadMemeFromStorage();
+    let fontSize = meme.txts[0].fontSize;
+    let y = meme.txts[0].lineHeight;
+    (operator === '+')? y-- : y++;
+    setMemeLineHeight(y);
+    let elCanvasText = getCurrText();
+    let elImg = document.querySelector('.invisible')
+    renderElCanvas(elImg);
+    let elCanvas = document.querySelector('.img-canvas');
+    let ctx = elCanvas.getContext('2d');
+    ctx.font = `${fontSize}px Impact`;
+    ctx.fillStyle = '#FFFFFF';
+    ctx.strokeText(elCanvasText, 20, y);
+
+}
+
+function findSelectedText(selectedTxt){
+    selectedTxt = selectedTxt.substring(selectedTxt.length-1);
+    selectedTxt = +selectedTxt;
+    selectedTxt--;
+    return selectedTxt
+}

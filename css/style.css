@@ -38,15 +38,14 @@ a{
 .meme-editor{
     height: auto;
 }
-.canvas-container{
-    display:none;
-    position: relative;
-    width: 473px;
-    height: 473px;
-}
+
 
 canvas{
-    width: 100%;
-    height:100%;
+    width: 50%;
+    height: 480px;
     z-index: 0;
+}
+
+.invisible{
+    display : none;
 }
