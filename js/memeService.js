@@ -10,15 +10,15 @@ let gMeme = {
     txts: [
         {   
             line: '',
-            lineHeight: 30,
-            fontSize: 16,
+            lineHeight: 80,
+            fontSize: 60,
             align: 'center',
             color: 'white',
         },
         {
             line: '',
-            lineHeight: 100,
-            fontSize: 16,
+            lineHeight: 470,
+            fontSize: 60,
             align: 'center',
             color: 'white',
         }
@@ -26,7 +26,18 @@ let gMeme = {
 }
 
 function createImages(){
-    return [createImage('images/2.jpg'), createImage('images/004.jpg')]
+    return [createImage('images/2.jpg'), createImage('images/003.jpg'),
+            createImage('images/004.jpg'), createImage('images/005.jpg'),
+            createImage('images/5.jpg'), createImage('images/006.jpg'),
+            createImage('images/8.jpg'), createImage('images/9.jpg'),
+            createImage('images/12.jpg'), createImage('images/19.jpg'),
+            createImage('images/Ancient-Aliens.jpg'), createImage('images/drevil.jpg'),
+            createImage('images/img2.jpg'), createImage('images/img4.jpg'),
+            createImage('images/img5.jpg'), createImage('images/img6.jpg'),
+            createImage('images/img11.jpg'), createImage('images/leo.jpg'),
+            createImage('images/meme1.jpg'), createImage('images/One-Does-Not-Simply.jpg'),
+            createImage('images/Oprah-You-Get-A.jpg'), createImage('images/patrick.jpg'),
+            createImage('images/putin.jpg'), createImage('images/X-Everywhere.jpg'),]
 }
 function createImage(url){
     return {
@@ -56,13 +67,13 @@ function getCurrMemeUrl(){
     return gMeme.selectedImgUrl;
 }
 
-function setMemeFontSize(size){
-    gMeme.txts[0].fontSize = size;
+function setMemeFontSize(size, idx){
+    gMeme.txts[idx].fontSize = size;
     saveMemeToStorage();
 }
 
-function setMemeLineHeight(y){
-    gMeme.txts[0].lineHeight = y;
+function setMemeLineHeight(y, idx){
+    gMeme.txts[idx].lineHeight = y;
     saveMemeToStorage()
 }
 
@@ -71,9 +82,36 @@ function setMemeTxt(selectedTxt, Txt){
     gMeme.txts[selectedTxt].line = Txt;
     saveMemeToStorage();
 }
-function getCurrText(){
+
+function setMemeTxtsIdx(newIdx){
+    gMeme.selectedTxt = newIdx;
+    saveMemeToStorage();
+}
+
+function getCurrText(idx){
+    debugger
     let gMeme = loadMemeFromStorage()
-    return gMeme.txts[0].line;
+    return gMeme.txts[idx].line;
+}
+
+function removeLine(id, unselectedLineIdx){
+    gMeme.selectedTxt = unselectedLineIdx;
+   gMeme.txts.splice(id);
+   saveMemeToStorage();
+
+}
+
+function findUnselectedTextsIdx(selectedTxt, meme){
+   let unselectedLineIdx =  meme.txts.findIndex((line, idx) => {
+       return idx !== selectedTxt;
+    }); 
+    return unselectedLineIdx;
+}
+
+function setTxtsLineHeight(firstLine, secondLine){
+    gMeme.txts[0].lineHeight = secondLine;
+    gMeme.txts[(gMeme.txts.length)-1].lineHeight = firstLine;
+    saveMemeToStorage();
 }
 
 function saveMemeToStorage(){
@@ -83,3 +121,4 @@ function saveMemeToStorage(){
 function loadMemeFromStorage(){
     return loadFromStorage(CURRMEME_KEY);
 }
+

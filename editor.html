@@ -5,29 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <title>Meme Editor</title>
 </head>
 <body onload="initMemeEditor()">
     <nav>
-        <li>Logo</li>
-        <li><a blank="_targer" href="index.html">Gallery</a></li>
-        <li><a blank="_targer" href="#">Memes</a></li>
-        <li><a blank="_targer" href="#">About</a></li>
+        <li class="logo"><img src="images/logo/layer-2.png" alt="logo"></li>
+        <div class="nav-text">
+            <li><a class="gallery" blank="_targer" href="index.html">Gallery</a></li>
+            <li><a href="index.html">About</a></li>
+        </div>
     </nav>
-    <div class="meme-editor">
-            <label for="meme-txt">Meme text no 1:</label>
-            <input oninput="onWrite(event, this.value, this.name)" type="text" name="meme-txt1">
-            <label for="meme-txt">Meme text no 2:</label>
-            <input oninput="onWrite(event, this.value, this.name)" type="text" name="meme-txt2">
-            <button onclick="onChangeFontSize('+')">Increase text size</button>
-            <button onclick="onChangeFontSize('-')">Decrease text size</button>
-            <button onclick="onLineHeightChange('+')">Up</button>
-            <button onclick="onLineHeightChange('-')">Down</button>
-            <button>Switch Line</button>
+    <div class="editor-container">
+        <div class="canvas-container">
+            <canvas width="550" height="550" class="img-canvas"></canvas>
+            <div class="meme-editor">
+                    <input onfocus="onSelectEditable(this.dataset)" oninput="onWrite(event, this.value, this.name)" type="text" data-idx="0" name="meme-txt1">
+                    <input onfocus="onSelectEditable(this.dataset)" oninput="onWrite(event, this.value, this.name)" type="text" data-idx="1" name="meme-txt2">
+                    <div class="button-container">
+                            <button onclick="onAddLine()"><img src="images/icons/add.png"></button>
+                            <button onclick="onSwitchLine()"><img src="images/icons/up-and-down-opposite-double-arrows-side-by-side.png"></button>
+                           <!-- doesn't work <button onclick="onDeleteLine()"><img src="images/icons/trash.png"></button> -->
+                    </div>
+                    <div class="button-container">
+                        <button onclick="onChangeFontSize('+')"><img src="images/icons/increase font - icon.png"></button>
+                        <button onclick="onChangeFontSize('-')"><img src="images/icons/decrease font - icon.png"></button>
+                        <button onclick="onLineHeightChange('+')">UP</button>
+                        <button onclick="onLineHeightChange('-')">DOWN</button>
+                    </div>
+            </div>
+        </div>
     </div>
-    <div class="canvas-container"></div>
-        <canvas class="img-canvas"></canvas>
-    </div>
+
+     <footer>
+        <div class="footer-container">
+            <img class="logo" src="images/logo/layer-2.png" alt="logo">
+            <div>all rights reserved 2019</div>
+        </div>
+    </footer>
+
     <img class="invisible" src="" alt="">
     <script src="js/memeService.js"></script>
     <script src="js/main.js"></script>

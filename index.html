@@ -5,17 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,800&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/cbf8bca443.js" crossorigin="anonymous"></script>
     <title>Meme Generator</title>
 </head>
 <body onload="init()">
     <nav>
-        <li>Logo</li>
-        <li><a blank="_targer" href="#">Gallery</a></li>
-        <li><a blank="_targer" href="#">Memes</a></li>
-        <li><a blank="_targer" href="#">About</a></li>
+        <li class="logo"><img src="images/logo/layer-2.png" alt="logo"></li>
+        <div class="nav-text">
+            <li><a class="gallery" blank="_targer" href="index.html">Gallery</a></li>
+            <li><a href="#about-container">About</a></li>
+        </div>
     </nav>
     <div class="img-gallery-container">
     </div>
+    <div id="about-container">
+        <img src="images/profile.JPG" alt="profile">
+        <div class="about-content">
+            <div class="about-header">Enav Even Tzur</div>
+            <div class="about-text">Is a fictional charecter amongst Pinchas and Aviv who appears in a fictional bootcamp</div>
+            <div class="social-media">
+                <i class="fab fa-linkedin"></i>
+                <i class="fab fa-facebook-square"></i>
+                <i class="fab fa-github-square"></i>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-container">
+            <img class="logo" src="images/logo/layer-2.png" alt="logo">
+            <div>all rights reserved 2019</div>
+        </div>
+    </footer>
     <script src="js/memeService.js"></script>
     <script src="js/main.js"></script>
     <script src="js/util.js"></script>
