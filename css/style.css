@@ -7,7 +7,6 @@ body{
     padding:0;
     margin:0;
     font-family: 'Montserrat', sans-serif;
-    background-color: #e3e3e3;
 
 }
 
@@ -48,6 +47,10 @@ li > a:hover{
     color: black;
 }
 
+.editor{
+    background-color:#e3e3e3;
+}
+
 .logo{
     padding: 0 50px 0;
     align-self: center;
@@ -75,6 +78,7 @@ li > a:hover{
 
  a > img{
     width: 100%;
+    cursor: pointer;
 }
 
 
@@ -88,10 +92,47 @@ li > a:hover{
     height: 320px;
     object-fit: cover;
 }
+.stroke{
+    -webkit-appearance: none;
+    border: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    border: none;
+    margin: 10px;
+    background-image: url('../images/text\ stroke.png');
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    background-position: 50% 70%;
+}
+.fill{
+    -webkit-appearance: none;
+    border: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    border: none;
+    margin: 10px;
+    background-image: url('../images/paint-board-and-brush.png');
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    background-position: 50% 70%; 
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+    border: none;
+    position: absolute;
+
+
+}
 
 #about-container{
     display:flex;
     margin: 80px 150px;
+    background-color:white;
 }
 
 .about-content{
@@ -255,11 +296,6 @@ footer{
 }
 
 
-.button-container{
-    display: flex;
-    justify-content: space-between;
-
-}
 .button-container > button{
     width: 60px;
     height: 60px;
@@ -276,11 +312,23 @@ input{
     border: none;
     margin: 10px;
 }
+
+select{
+    font-size: 20px;
+    width: 250px;
+    font-family: 'Montserrat', sans-serif;
+    padding: 20px;
+    border-radius: 5px;
+    border: none;
+    margin: 10px;
+    height: 60px;
+}
 button > img{
     width: 50px;
     height: 50px;
     cursor: pointer;
 }
+
 button{
     cursor: pointer;
 }
@@ -291,4 +339,15 @@ button:focus{
 
 [name="meme-txt2"]{
      display: none;
+}
+
+
+.flex{
+    display: flex;
+}
+.justify-center{
+    justify-content: center;
+}
+.justify-space-between{
+    justify-content: space-between
 }

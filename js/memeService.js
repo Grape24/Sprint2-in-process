@@ -14,6 +14,8 @@ let gMeme = {
             fontSize: 60,
             align: 'center',
             color: 'white',
+            stroke: 'black',
+            font: 'Impact'
         },
         {
             line: '',
@@ -21,6 +23,8 @@ let gMeme = {
             fontSize: 60,
             align: 'center',
             color: 'white',
+            stroke: 'black',
+            font: 'Impact'
         }
     ]
 }
@@ -53,6 +57,7 @@ function findURLById(idx){
     })
     return img[0].url;
 }
+
 
 function selectImgById(idx){
     gMeme.selectedImgId = idx;
@@ -88,16 +93,25 @@ function setMemeTxtsIdx(newIdx){
     saveMemeToStorage();
 }
 
+function setMemeTxtAlignment(idx, alignment){
+    gMeme.txts[idx].align = alignment;
+    saveMemeToStorage();
+}
+
+function setMemeProperty(idx, property, value){
+    gMeme.txts[idx][property] = value;
+    saveMemeToStorage();
+}
+
 function getCurrText(idx){
     let gMeme = loadMemeFromStorage()
     return gMeme.txts[idx].line;
 }
 
-function removeLine(id, unselectedLineIdx){
-    gMeme.selectedTxt = unselectedLineIdx;
-   gMeme.txts.splice(id);
-   saveMemeToStorage();
-
+function removeLine(id, unselectedIdx){
+    gMeme.selectedTxt = unselectedIdx;
+    gMeme.txts[id].line = '';
+    saveMemeToStorage();
 }
 
 function findUnselectedTextsIdx(selectedTxt, meme){

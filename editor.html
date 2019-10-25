@@ -9,7 +9,7 @@
     <script src="https://kit.fontawesome.com/cbf8bca443.js" crossorigin="anonymous"></script>
     <title>Meme Editor</title>
 </head>
-<body onload="initMemeEditor()">
+<body class="editor" onload="initMemeEditor()">
     <nav>
         <li class="logo"><img src="images/logo/layer-2.png" alt="logo"></li>
         <button class="nav-button" onclick="openNav(this)">☰</button>
@@ -24,14 +24,28 @@
             <div class="meme-editor">
                     <input onfocus="onSelectEditable(this.dataset)" oninput="onWrite(event, this.value, this.name)" type="text" data-idx="0" name="meme-txt1">
                     <input onfocus="onSelectEditable(this.dataset)" oninput="onWrite(event, this.value, this.name)" type="text" data-idx="1" name="meme-txt2">
-                    <div class="button-container">
-                            <button onclick="onAddLine()"><img src="images/icons/add.png"></button>
-                            <button onclick="onSwitchLine()"><img src="images/icons/up-and-down-opposite-double-arrows-side-by-side.png"></button>
-                           <!-- doesn't work <button onclick="onDeleteLine()"><img src="images/icons/trash.png"></button> -->
+                    <div class="button-container flex justify-center">
+                        <button onclick="onSwitchLine()"><img src="images/icons/up-and-down-opposite-double-arrows-side-by-side.png"></button>
+                        <button onclick="onAddLine()"><img src="images/icons/add.png"></button>
+                        <button onclick="onDeleteLine()"><img src="images/icons/trash.png"></button>
                     </div>
-                    <div class="button-container">
+                    <div class="button-container flex justify-space-between">
                         <button onclick="onChangeFontSize('+')"><img src="images/icons/increase font - icon.png"></button>
                         <button onclick="onChangeFontSize('-')"><img src="images/icons/decrease font - icon.png"></button>
+                        <button onclick="onTextAlign('right')"><img src="images/icons/align-to-left.png"></button>
+                        <button onclick="onTextAlign('center')"><img src="images/icons/center-text-alignment.png"></button>
+                        <button onclick="onTextAlign('left')"><img src="images/icons/align-to-right.png"></button>
+                    </div>
+                    <div class="button-container flex justify-space-between">
+                        <select onchange="onChangeFont(this.value)"name="fonts">
+                            <option value="Impact">Impact</option>
+                            <option value="Arial">Arial</option>
+                            <option value="Helvetica">Helvetica</option>
+                        </select>
+                        <input class="stroke" type="color" onchange="onChangeStroke(this.value)">
+                        <input class="fill" type="color" onchange="onChangeFill(this.value)">
+                    </div>
+                    <div class="button-container flex">
                         <button onclick="onLineHeightChange('+')">UP</button>
                         <button onclick="onLineHeightChange('-')">DOWN</button>
                     </div>
