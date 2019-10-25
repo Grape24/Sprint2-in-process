@@ -4,6 +4,7 @@ function init(){
     renderImgGallery();
 }
 
+
 function renderImgGallery(){
     let elImgContainer = document.querySelector('.img-gallery-container');
     let strHTMLS = gImgs.map((img) => {
@@ -18,7 +19,6 @@ function onEditMeme(elImg){
     elImgIdx = +elImgIdx;
     selectImgById(elImgIdx);
 }
-
 
 function initMemeEditor(){
     let url = getCurrMemeUrl();
@@ -108,11 +108,12 @@ function onSelectEditable(dataset){
 }
 
 function renderElCanvas(img){
+
     let elCanvas = document.querySelector('.img-canvas');
     let ctx = elCanvas.getContext('2d');
     let width = elCanvas.width;
     let height = elCanvas.height;
-    ctx.drawImage(img, 0, 0, width, height)
+    ctx.drawImage(img, 0, 0, img.width, img.height, 0 ,0, width, height)
 }
 
 function onDeleteLine(){
@@ -168,7 +169,6 @@ function onAddLine(){
     elInput.style.display ='block';
 }
 
-
 function writeTxt(ctx, elInputValue, y, selectedTxt, fontSize){
     ctx.fillStyle = '#FFFFFF'
     ctx.font = `${fontSize}px Impact`;
@@ -179,3 +179,12 @@ function writeTxt(ctx, elInputValue, y, selectedTxt, fontSize){
     ctx.font = `${fontSize}px Impact`;
 
 } 
+
+function openNav(elButton){
+    var elNav = document.querySelector('.nav-text');
+    elNav.classList.toggle('menu-is-clicked');
+    if(elNav.classList[1] ==='menu-is-clicked'){
+        elButton.innerHTML = '<i class="fas fa-times"></i>'}
+    else elButton.innerHTML = '☰'
+}
+

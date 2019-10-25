@@ -7,6 +7,7 @@ body{
     padding:0;
     margin:0;
     font-family: 'Montserrat', sans-serif;
+    background-color: #e3e3e3;
 
 }
 
@@ -134,9 +135,56 @@ li > a:hover{
         grid-row-gap: 30px;
     }
 
-
 }
 
+@media (min-width: 550px){
+    .nav-button{
+        display: none;
+    }
+    nav{
+        height:66px;
+    }
+    .menu-is-clicked{
+        position:static;
+    }
+    li >a {
+        border-left:none;
+    }
+
+
+}
+@media (max-width: 550px){
+    #about-container{
+        margin:0;
+    }
+    .canvas-container{
+        max-width: 400px;
+    }
+    .nav-button{
+        display: block;
+        position: relative;
+        z-index: 1;
+        flex-direction: column;
+        text-align: right;
+        position: absolute;
+        background: #ff7f00;
+        width: 50px;
+        height: 60px;
+        right: 0;
+        z-index: 0;
+    }
+    .nav-text{
+        display:none;
+        padding:none;
+    }
+    nav{
+        height: 66px;
+    }
+
+    li > a{
+        border-left:none;
+    }
+}
 @media (max-width: 1090px){
     .canvas-container{
         flex-direction: column;
@@ -145,6 +193,27 @@ li > a:hover{
 
 }
 
+.menu-is-clicked{
+    display: flex;
+    position: absolute;
+    top: 4rem;
+    background-color: #ff7f00;
+    right: 0;
+    flex-direction: column;
+    width: 80%;
+}
+
+.hide{
+    display: none;
+}
+
+.nav-button{
+    background-color: #ff7f00;
+    font-size: 3rem;
+    border: none;
+    color: white;
+    width: 5rem;
+}
 i.fa-linkedin:before, i.fa-facebook-square:before, i.fa-github-square:before{
     color: #ff7f00;
     font-size: 50px;
@@ -170,6 +239,7 @@ footer{
 .editor-container{
     padding: 20px 50px;
     background-color: #e3e3e3;
+    margin: 100px;
 }
 .meme-editor{
     height: auto;
@@ -199,7 +269,6 @@ footer{
 }
 
 input{
-    width: 370px;
     font-size: 20px;
     font-family: 'Montserrat', sans-serif;
     padding: 20px;
@@ -214,6 +283,10 @@ button > img{
 }
 button{
     cursor: pointer;
+}
+
+button:focus{
+    outline:none;
 }
 
 [name="meme-txt2"]{

@@ -6,11 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/cbf8bca443.js" crossorigin="anonymous"></script>
     <title>Meme Editor</title>
 </head>
 <body onload="initMemeEditor()">
     <nav>
         <li class="logo"><img src="images/logo/layer-2.png" alt="logo"></li>
+        <button class="nav-button" onclick="openNav(this)">☰</button>
         <div class="nav-text">
             <li><a class="gallery" blank="_targer" href="index.html">Gallery</a></li>
             <li><a href="index.html">About</a></li>
@@ -18,7 +20,7 @@
     </nav>
     <div class="editor-container">
         <div class="canvas-container">
-            <canvas width="550" height="550" class="img-canvas"></canvas>
+            <canvas width="400" height="400" class="img-canvas"></canvas>
             <div class="meme-editor">
                     <input onfocus="onSelectEditable(this.dataset)" oninput="onWrite(event, this.value, this.name)" type="text" data-idx="0" name="meme-txt1">
                     <input onfocus="onSelectEditable(this.dataset)" oninput="onWrite(event, this.value, this.name)" type="text" data-idx="1" name="meme-txt2">

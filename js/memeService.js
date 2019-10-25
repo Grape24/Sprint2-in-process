@@ -17,7 +17,7 @@ let gMeme = {
         },
         {
             line: '',
-            lineHeight: 470,
+            lineHeight: 370,
             fontSize: 60,
             align: 'center',
             color: 'white',
@@ -89,7 +89,6 @@ function setMemeTxtsIdx(newIdx){
 }
 
 function getCurrText(idx){
-    debugger
     let gMeme = loadMemeFromStorage()
     return gMeme.txts[idx].line;
 }
