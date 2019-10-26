@@ -22,8 +22,8 @@
         <div class="canvas-container">
             <canvas width="400" height="400" class="img-canvas"></canvas>
             <div class="meme-editor">
-                    <input onfocus="onSelectEditable(this.dataset)" oninput="onWrite(event, this.value, this.name)" type="text" data-idx="0" name="meme-txt1">
-                    <input onfocus="onSelectEditable(this.dataset)" oninput="onWrite(event, this.value, this.name)" type="text" data-idx="1" name="meme-txt2">
+                    <input oninput="onWrite(event, this.value, this.dataset)"
+                     placeholder="Write here" type="text" data-idx="0" name="meme-txt1">
                     <div class="button-container flex justify-center">
                         <button onclick="onSwitchLine()"><img src="images/icons/up-and-down-opposite-double-arrows-side-by-side.png"></button>
                         <button onclick="onAddLine()"><img src="images/icons/add.png"></button>
@@ -45,9 +45,11 @@
                         <input class="stroke" type="color" onchange="onChangeStroke(this.value)">
                         <input class="fill" type="color" onchange="onChangeFill(this.value)">
                     </div>
-                    <div class="button-container flex">
-                        <button onclick="onLineHeightChange('+')">UP</button>
-                        <button onclick="onLineHeightChange('-')">DOWN</button>
+                    <div class="button-container flex justify-space-between">
+                        <button onclick="onLineHeightChange('+')"><i class="fas fa-long-arrow-alt-up"></i></button>
+                        <button onclick="onLineHeightChange('-')"><i class="fas fa-long-arrow-alt-down"></i></button>
+                        <button onclick="onLineXChange('-')"><i class="fas fa-long-arrow-alt-left"></i></button>
+                        <button onclick="onLineXChange('+')"><i class="fas fa-long-arrow-alt-right"></i></button>
                     </div>
             </div>
         </div>

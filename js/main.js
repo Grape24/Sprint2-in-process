@@ -28,7 +28,7 @@ function initMemeEditor(){
 
 function onWrite(ev, elInputValue, selectedTxtIdx){
     let meme = loadMemeFromStorage();
-    selectedTxtIdx = findSelectedText(selectedTxtIdx);
+    selectedTxtIdx = +selectedTxtIdx.idx;
     let unselectedLineIdx = findUnselectedTextsIdx(selectedTxtIdx, meme);
     let elImg = document.querySelector('.invisible')
     let elCanvas = document.querySelector('.img-canvas');
@@ -38,12 +38,14 @@ function onWrite(ev, elInputValue, selectedTxtIdx){
         setMemeTxt(selectedTxtIdx, elInputValue) 
         renderElCanvas(elImg);
         writeTxt(meme, unselectedLineIdx, ctx);
+        drawRectAroundText(meme, selectedTxtIdx, ctx);
         writeTxt(meme, selectedTxtIdx, ctx);
 
     }else{
         setMemeTxt(selectedTxtIdx, elInputValue) 
         renderElCanvas(elImg);
         writeTxt(meme, unselectedLineIdx, ctx);
+        drawRectAroundText(meme, selectedTxtIdx, ctx);
         writeTxt(meme, selectedTxtIdx, ctx);
     }
 }
@@ -60,6 +62,7 @@ function onChangeFontSize(operator){
     let elCanvas = document.querySelector('.img-canvas');
     let ctx = elCanvas.getContext('2d');
     writeTxt(meme, unselectedLineIdx, ctx);
+    drawRectAroundText(meme, selectedTxtIdx, ctx);
     writeTxt(meme, selectedTxtIdx, ctx);
 }
 
@@ -68,13 +71,31 @@ function onLineHeightChange(operator){
     let selectedTxtIdx = meme.selectedTxt;
     let unselectedLineIdx = findUnselectedTextsIdx(selectedTxtIdx, meme);
     let y = meme.txts[selectedTxtIdx].lineHeight;
-    (operator === '+')? y-- : y++;
+    (operator === '+')? y=y-3 : y=y+3;
     setMemeLineHeight(y, selectedTxtIdx);
     let elImg = document.querySelector('.invisible')
     renderElCanvas(elImg);
     let elCanvas = document.querySelector('.img-canvas');
     let ctx = elCanvas.getContext('2d');
     writeTxt(meme, unselectedLineIdx, ctx);
+    drawRectAroundText(meme, selectedTxtIdx, ctx);
+    writeTxt(meme, selectedTxtIdx, ctx);
+}
+
+function onLineXChange(operator){
+    let meme = loadMemeFromStorage();
+    let selectedTxtIdx = meme.selectedTxt;
+    let unselectedLineIdx = findUnselectedTextsIdx(selectedTxtIdx, meme);
+    let x = meme.txts[selectedTxtIdx].lineX;
+    (operator === '+')? x=x+3 : x=x-3;
+    let lineX = 'lineX'
+    setMemeProperty(selectedTxtIdx, lineX, x);
+    let elImg = document.querySelector('.invisible')
+    renderElCanvas(elImg);
+    let elCanvas = document.querySelector('.img-canvas');
+    let ctx = elCanvas.getContext('2d');
+    writeTxt(meme, unselectedLineIdx, ctx);
+    drawRectAroundText(meme, selectedTxtIdx, ctx);
     writeTxt(meme, selectedTxtIdx, ctx);
 
 }
@@ -82,20 +103,28 @@ function onLineHeightChange(operator){
 function onDeleteLine(){
     let meme = loadMemeFromStorage();
     let selectedTxtIdx = meme.selectedTxt;
-    let unselectedLineIdx = findUnselectedTextsIdx(selectedTxtIdx, meme);
-    removeLine(selectedTxtIdx, unselectedLineIdx);
-    let elInput = document.querySelector(`[name="meme-txt${selectedTxtIdx+1}"]`)
-    if (elInput.dataset.idx === '1'){
-        elInput.style.display = 'none';
-        elInput.value = '';
-    } else elInput.value = '';
+    removeLine(selectedTxtIdx);
     let elCanvas = document.querySelector('.img-canvas');
     let elImg = document.querySelector('.invisible')
     let ctx = elCanvas.getContext('2d');
     renderElCanvas(elImg);
     meme = loadMemeFromStorage();
+    let txtsLength = getSelectedTxtLength();
     selectedTxtIdx = meme.selectedTxt;
-    writeTxt(meme, selectedTxtIdx, ctx);
+    if (txtsLength === 0) {
+        let elInput = document.querySelector('[name="meme-txt1"]');
+        elInput.setAttribute('data-idx', `${selectedTxtIdx}`)
+        elInput.value = '';
+        return;
+    }else{
+    let unselectedLineIdx = findUnselectedTextsIdx(selectedTxtIdx, meme);
+    writeTxt(meme, unselectedLineIdx, ctx);
+    drawRectAroundText(meme, selectedTxtIdx, ctx);
+    writeTxt(meme, selectedTxtIdx, ctx);}
+    let elInput = document.querySelector('[name="meme-txt1"]');
+    elInput.setAttribute('data-idx', `${selectedTxtIdx}`)
+    let txt = getCurrText(selectedTxtIdx);
+    elInput.value = txt;
 }
 
 function onTextAlign(alignment){
@@ -109,6 +138,7 @@ function onTextAlign(alignment){
     renderElCanvas(elImg);
     meme = loadMemeFromStorage();
     writeTxt(meme, unselectedLineIdx, ctx);
+    drawRectAroundText(meme, selectedTxtIdx, ctx);
     writeTxt(meme, selectedTxtIdx, ctx);
 }
 
@@ -124,6 +154,7 @@ function onChangeFont(fontFamily){
     renderElCanvas(elImg);
     meme = loadMemeFromStorage();
     writeTxt(meme, unselectedLineIdx, ctx);
+    drawRectAroundText(meme, selectedTxtIdx, ctx);
     writeTxt(meme, selectedTxtIdx, ctx);
 }
 
@@ -139,6 +170,7 @@ function onChangeStroke(color){
     renderElCanvas(elImg);
     meme = loadMemeFromStorage();
     writeTxt(meme, unselectedLineIdx, ctx);
+    drawRectAroundText(meme, selectedTxtIdx, ctx);
     writeTxt(meme, selectedTxtIdx, ctx);
 }
 
@@ -154,17 +186,28 @@ function onChangeFill(color){
     renderElCanvas(elImg);
     meme = loadMemeFromStorage();
     writeTxt(meme, unselectedLineIdx, ctx);
+    drawRectAroundText(meme, selectedTxtIdx, ctx);
     writeTxt(meme, selectedTxtIdx, ctx);
-
 }
 
 function onSwitchLine(){
     let meme = loadMemeFromStorage();
-    let selectedTxt = meme.selectedTxt;
-    let unselectedLineIdx = findUnselectedTextsIdx(selectedTxt, meme);
-    setMemeTxtsIdx(unselectedLineIdx);
-    let focusedInput = document.querySelector(`[data-idx="${unselectedLineIdx}"]`)
-    focusedInput.focus();
+    let selectedTxtIdx = meme.selectedTxt;
+    switchSelectedTxt(selectedTxtIdx);
+    let elCanvas = document.querySelector('.img-canvas');
+    let elImg = document.querySelector('.invisible')
+    let ctx = elCanvas.getContext('2d');
+    renderElCanvas(elImg);
+    meme = loadMemeFromStorage();
+    selectedTxtIdx = meme.selectedTxt;
+    let unselectedLineIdx = findUnselectedTextsIdx(selectedTxtIdx, meme);
+    drawRectAroundText(meme, selectedTxtIdx, ctx);
+    writeTxt(meme, selectedTxtIdx, ctx);
+    writeTxt(meme, unselectedLineIdx, ctx);
+    let elInput = document.querySelector('[name="meme-txt1"]');
+    elInput.setAttribute('data-idx', `${selectedTxtIdx}`)
+    let txt = getCurrText(selectedTxtIdx);
+    elInput.value = txt;
 }
 
 function onSelectEditable(dataset){
@@ -187,6 +230,7 @@ function createImgElement(url){
         let elImg = document.querySelector('.invisible')
         elImg.src = url
         renderElCanvas(img);
+        initMeme();
     }
 }
 
@@ -201,45 +245,86 @@ function restoreCurrMeme(){
 }
 
 
-function findSelectedText(selectedTxt){
-    selectedTxt = selectedTxt.substring(selectedTxt.length-1);
-    selectedTxt = +selectedTxt;
-    selectedTxt--;
-    return selectedTxt
-}
-
 function onAddLine(){
-    let elInput = document.querySelector('[name="meme-txt2"]')
-    elInput.style.display ='block';
+    let elCanvas = document.querySelector('.img-canvas');
+    let elImg = document.querySelector('.invisible')
+    let ctx = elCanvas.getContext('2d');
+    renderElCanvas(elImg);
+    increaseMemeIdx();
+    let meme = loadMemeFromStorage();
+    let selectedTxtIdx = getSelectedTxt();
+    addTxts(selectedTxtIdx);
+    let unselectedLineIdx = findUnselectedTextsIdx(selectedTxtIdx, meme);
+    drawRectAroundText(meme, selectedTxtIdx, ctx);
+    writeTxt(meme, selectedTxtIdx, ctx);
+    let txtsLength = getSelectedTxtLength();
+    let elInput = document.querySelector(`[name="meme-txt1"]`);
+    elInput.setAttribute('data-idx', `${selectedTxtIdx}`)
+    elInput.value = '';
+    if(txtsLength === 1)return;
+    writeTxt(meme, unselectedLineIdx, ctx);
+
 }
 
 function writeTxt(meme, idx, ctx){
-    meme = loadMemeFromStorage();
-    let selectedTxt = meme.txts[idx].line;
-    let fontSize = meme.txts[idx].fontSize;
-    let y = meme.txts[idx].lineHeight;
-    let txtAlign = meme.txts[idx].align;
-    let font = meme.txts[idx].font;
-    let stroke = meme.txts[idx].stroke;
-    let color = meme.txts[idx].color;
-    ctx.fillStyle = color;
-    ctx.strokeStyle = stroke;
-    ctx.font = `${fontSize}px ${font}`;
-    ctx.textAlign = txtAlign;
-    ctx.lineWidth = 2;
-    ctx.fillText(selectedTxt, 200, y);
-    ctx.strokeText(selectedTxt, 200, y);
-    ctx.stroke;
+    if (Array.isArray(idx)){
+        for (let i = 0; i < idx.length; i++){
+            meme = loadMemeFromStorage();
+            let selectedTxt = meme.txts[idx[i]].line;
+            let fontSize = meme.txts[idx[i]].fontSize;
+            let y = meme.txts[idx[i]].lineHeight;
+            let txtAlign = meme.txts[idx[i]].align;
+            let font = meme.txts[idx[i]].font;
+            let stroke = meme.txts[idx[i]].stroke;
+            let color = meme.txts[idx[i]].color;
+            let x = meme.txts[idx[i]].lineX;
+            ctx.fillStyle = color;
+            ctx.strokeStyle = stroke;
+            ctx.font = `${fontSize}px ${font}`;
+            ctx.textAlign = txtAlign;
+            ctx.lineWidth = 2;
+            ctx.fillText(selectedTxt, x, y);
+            ctx.strokeText(selectedTxt, x, y);
+            ctx.stroke;
+        }
+    } else{
+        meme = loadMemeFromStorage();
+        let selectedTxt = meme.txts[idx].line;
+        let fontSize = meme.txts[idx].fontSize;
+        let y = meme.txts[idx].lineHeight;
+        let txtAlign = meme.txts[idx].align;
+        let font = meme.txts[idx].font;
+        let stroke = meme.txts[idx].stroke;
+        let color = meme.txts[idx].color;
+        let x = meme.txts[idx].lineX;
+        ctx.fillStyle = color;
+        ctx.strokeStyle = stroke;
+        ctx.font = `${fontSize}px ${font}`;
+        ctx.textAlign = txtAlign;
+        ctx.lineWidth = 2;
+        ctx.fillText(selectedTxt, x, y);
+        ctx.strokeText(selectedTxt, x, y);
+        ctx.stroke;
+    }
 } 
 
-//currently never invoked =>
-function drawRectAroundText(elInputValue, ctx, fontSize){
-        let measurements = ctx.measureText(elInputValue);
-        ctx.beginPath();
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = 'black';
-        ctx.strokeRect(20, y - fontSize / 2 - 20, measurements.width, fontSize + 10); 
-    }
+function drawRectAroundText(meme, idx, ctx){
+    meme = loadMemeFromStorage();
+    let fontSize = meme.txts[idx].fontSize;
+    let y = meme.txts[idx].lineHeight;
+    ctx.beginPath();
+    ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+    ctx.fillRect(0, y - fontSize / 2 - 30, 500, fontSize + 20); 
+}
+
+function initMeme(){
+    let meme = loadMemeFromStorage();
+    let elCanvas = document.querySelector('.img-canvas');
+    let ctx = elCanvas.getContext('2d');
+    let idxs = findIdxs();
+    drawRectAroundText(meme, 0, ctx);
+    writeTxt(meme, idxs, ctx);
+}
 
 function openNav(elButton){
     var elNav = document.querySelector('.nav-text');
